@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
-    "seed": "node ../database/seed.js"
+    "seed": "node ../database/seed.js",
+    "test": "jest --coverage"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -14,5 +15,12 @@
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.11.0"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "devDependencies": {
+    "jest": "^30.5.2",
+    "supertest": "^7.3.1"
   }
 }
