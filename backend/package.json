@@ -2,10 +2,10 @@
   "name": "ecorecicla-backend",
   "version": "1.0.0",
   "description": "API REST de EcoRecicla (Node.js + Express + MySQL 8)",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "node app.js",
+    "start": "node server.js",
+    "dev": "node server.js",
     "seed": "node ../database/seed.js"
   },
   "dependencies": {

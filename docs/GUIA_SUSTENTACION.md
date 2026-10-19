@@ -74,7 +74,8 @@ siempre con la misma forma `{ error, detalles }`.
 
 | Archivo | Responsabilidad |
 |---------|-----------------|
-| `backend/app.js` | Carga `.env`, registra `express.json()`, el estatico del frontend, las rutas, el 404 de API y el manejador de errores. Levanta el servidor. |
+| `backend/app.js` | Carga `.env`, registra `express.json()`, el estatico del frontend, las rutas, el 404 de API y el manejador de errores. Exporta la app sin abrir puerto. |
+| `backend/server.js` | Importa la app y la pone a escuchar en `PORT` (`npm start`). |
 | `src/db.js` | Crea el pool de conexiones mysql2 (10 conexiones) que reutilizan todos los controladores. |
 | `src/middlewares/error.js` | Clase `ErrorApi` (codigo + mensaje + detalles), envoltorio `asincrono()`, `noEncontrado` (404) y `manejadorErrores` (respuesta unica y 500 sin filtrar detalles internos). |
 | `src/middlewares/auth.js` | Verifica el JWT y llena `req.usuario`. Responde 401. |

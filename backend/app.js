@@ -1,5 +1,5 @@
 /**
- * Punto de entrada de la API REST de EcoRecicla.
+ * Aplicacion Express de la API REST de EcoRecicla.
  * Express tambien sirve la carpeta frontend/ como contenido estatico:
  * en desarrollo evita problemas de CORS y en produccion ese rol lo
  * cumple Nginx, como muestra el diagrama de despliegue.
@@ -30,9 +30,6 @@ app.use('/api/tipos', rutasTipos);
 app.use('/api', noEncontrado);
 app.use(manejadorErrores);
 
-const PUERTO = Number(process.env.PORT || 3000);
-app.listen(PUERTO, () => {
-  console.log('EcoRecicla API escuchando en http://localhost:' + PUERTO);
-});
-
+// Se exporta sin app.listen(): server.js abre el puerto y las pruebas
+// con Supertest usan la app directamente, sin levantar el servidor.
 module.exports = app;

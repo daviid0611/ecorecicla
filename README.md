@@ -191,7 +191,8 @@ Con ruta completa si `mysqldump` no esta en el PATH:
 ```
 ecorecicla/
   backend/
-    app.js                     Arranque de Express y middlewares globales
+    app.js                     App de Express y middlewares globales (sin listen)
+    server.js                  Arranque: abre el puerto (npm start)
     package.json
     src/
       db.js                    Pool de conexiones MySQL
