@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoRecicla | Validar registros</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="principal">
+    <h1>EcoRecicla - Validacion del operador</h1>
+    <nav class="principal" aria-label="Navegacion principal">
+      <a href="index.html">Inicio</a>
+      <a href="puntos.html">Puntos</a>
+      <a href="#" id="salir">Cerrar sesion</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Registros de mi punto</h2>
+    <p id="usuario-actual"></p>
+    <div class="mensaje" id="aviso" role="status" aria-live="polite" hidden></div>
+
+    <section class="tarjeta">
+      <div class="campo">
+        <label for="estado">Ver registros en estado</label>
+        <select id="estado">
+          <option value="pendiente">Pendientes</option>
+          <option value="aprobado">Aprobados</option>
+          <option value="rechazado">Rechazados</option>
+        </select>
+      </div>
+    </section>
+
+    <section>
+      <div class="tabla-scroll">
+        <table>
+          <caption>Solo se muestran los registros del punto asignado al operador</caption>
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Fecha</th>
+              <th scope="col">Ciudadano</th>
+              <th scope="col">Tipo</th>
+              <th scope="col">Kg</th>
+              <th scope="col">Observaciones</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="cuerpo-tabla"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>EcoRecicla - RF10: validacion de registros</footer>
+  <script src="js/api.js"></script>
+  <script src="js/validar.js"></script>
+</body>
+</html>

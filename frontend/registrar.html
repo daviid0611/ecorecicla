@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoRecicla | Registrar reciclaje</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="principal">
+    <h1>EcoRecicla</h1>
+    <nav class="principal" aria-label="Navegacion principal">
+      <a href="index.html">Inicio</a>
+      <a href="puntos.html">Puntos</a>
+      <a href="registrar.html">Registrar</a>
+      <a href="historial.html">Historial</a>
+      <a href="reportes.html">Reportes</a>
+      <a href="#" id="salir">Cerrar sesion</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Registrar reciclaje</h2>
+    <p id="usuario-actual"></p>
+    <div class="mensaje" id="aviso" role="status" aria-live="polite" hidden></div>
+
+    <section class="tarjeta">
+      <form id="form-registro" novalidate>
+        <div class="campo">
+          <label for="id_punto">Punto de reciclaje *</label>
+          <select id="id_punto" name="id_punto" required>
+            <option value="">Seleccione un punto</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label for="id_tipo">Tipo de residuo *</label>
+          <select id="id_tipo" name="id_tipo" required aria-describedby="ayuda-tipo">
+            <option value="">Seleccione primero un punto</option>
+          </select>
+          <span id="ayuda-tipo">Solo se listan los residuos que acepta el punto elegido.</span>
+        </div>
+
+        <div class="campo">
+          <label for="cantidad_kg">Cantidad en kilogramos *</label>
+          <input type="number" id="cantidad_kg" name="cantidad_kg" step="0.01" min="0.01" required>
+        </div>
+
+        <div class="campo">
+          <label for="observaciones">Observaciones (opcional)</label>
+          <input type="text" id="observaciones" name="observaciones" maxlength="200">
+        </div>
+
+        <button type="submit">Guardar registro</button>
+      </form>
+    </section>
+
+    <section id="ultimo-registro"></section>
+  </main>
+
+  <footer>EcoRecicla - RF4: registro de reciclaje</footer>
+  <script src="js/api.js"></script>
+  <script src="js/registrar.js"></script>
+</body>
+</html>

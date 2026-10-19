@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoRecicla | Mi historial</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="principal">
+    <h1>EcoRecicla</h1>
+    <nav class="principal" aria-label="Navegacion principal">
+      <a href="index.html">Inicio</a>
+      <a href="puntos.html">Puntos</a>
+      <a href="registrar.html">Registrar</a>
+      <a href="historial.html">Historial</a>
+      <a href="reportes.html">Reportes</a>
+      <a href="#" id="salir">Cerrar sesion</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Mi historial de reciclaje</h2>
+    <p id="usuario-actual"></p>
+    <div class="mensaje" id="aviso" role="status" aria-live="polite" hidden></div>
+
+    <section class="tarjeta">
+      <form id="form-filtros">
+        <div class="fila">
+          <div class="campo">
+            <label for="desde">Desde</label>
+            <input type="date" id="desde" name="desde">
+          </div>
+          <div class="campo">
+            <label for="hasta">Hasta</label>
+            <input type="date" id="hasta" name="hasta">
+          </div>
+          <div class="campo">
+            <label for="id_tipo">Tipo de residuo</label>
+            <select id="id_tipo" name="id_tipo">
+              <option value="">Todos</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="estado">Estado</label>
+            <select id="estado" name="estado">
+              <option value="">Todos</option>
+              <option value="pendiente">Pendiente</option>
+              <option value="aprobado">Aprobado</option>
+              <option value="rechazado">Rechazado</option>
+            </select>
+          </div>
+        </div>
+        <div class="acciones">
+          <button type="submit">Filtrar</button>
+          <button type="button" class="secundario" id="btn-limpiar">Limpiar</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="tarjetas" id="resumen" aria-live="polite"></section>
+
+    <section>
+      <div class="tabla-scroll">
+        <table>
+          <caption>Registros ordenados por fecha descendente</caption>
+          <thead>
+            <tr>
+              <th scope="col">Fecha</th>
+              <th scope="col">Punto</th>
+              <th scope="col">Tipo</th>
+              <th scope="col">Kg</th>
+              <th scope="col">CO2 (kg)</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Observaciones</th>
+            </tr>
+          </thead>
+          <tbody id="cuerpo-tabla"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>EcoRecicla - RF5: historial personal</footer>
+  <script src="js/api.js"></script>
+  <script src="js/historial.js"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoRecicla | Iniciar sesion</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="principal">
+    <h1>EcoRecicla</h1>
+    <nav class="principal" aria-label="Navegacion principal">
+      <a href="index.html">Inicio</a>
+      <a href="admin-puntos.html">Administrar puntos</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="mensaje" id="aviso" role="status" aria-live="polite" hidden></div>
+
+    <section class="tarjetas">
+      <article class="tarjeta">
+        <h2>Iniciar sesion</h2>
+        <form id="form-login" novalidate>
+          <div class="campo">
+            <label for="correo-login">Correo electronico</label>
+            <input type="email" id="correo-login" name="correo" autocomplete="email" required>
+          </div>
+          <div class="campo">
+            <label for="clave-login">Contrasena</label>
+            <input type="password" id="clave-login" name="contrasena" autocomplete="current-password" required>
+          </div>
+          <button type="submit">Entrar</button>
+        </form>
+      </article>
+
+      <article class="tarjeta">
+        <h2>Crear cuenta de ciudadano</h2>
+        <form id="form-registro" novalidate>
+          <div class="campo">
+            <label for="nombre">Nombre completo</label>
+            <input type="text" id="nombre" name="nombre" autocomplete="name" required minlength="3">
+          </div>
+          <div class="campo">
+            <label for="correo">Correo electronico</label>
+            <input type="email" id="correo" name="correo" autocomplete="email" required>
+          </div>
+          <div class="campo">
+            <label for="clave">Contrasena <span id="ayuda-clave">(minimo 8 caracteres)</span></label>
+            <input type="password" id="clave" name="contrasena" autocomplete="new-password"
+                   required minlength="8" aria-describedby="ayuda-clave">
+          </div>
+          <div class="campo">
+            <label for="telefono">Telefono (opcional)</label>
+            <input type="tel" id="telefono" name="telefono" autocomplete="tel">
+          </div>
+          <button type="submit" class="secundario">Registrarme</button>
+        </form>
+      </article>
+    </section>
+  </main>
+
+  <footer>EcoRecicla - RF1 y RF2</footer>
+  <script src="js/api.js"></script>
+  <script src="js/login.js"></script>
+</body>
+</html>

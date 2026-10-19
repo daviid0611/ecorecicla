@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoRecicla | Administrar puntos</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="principal">
+    <h1>EcoRecicla - Administracion de puntos</h1>
+    <nav class="principal" aria-label="Navegacion principal">
+      <a href="index.html">Inicio</a>
+      <a href="admin-tipos.html">Tipos de residuo</a>
+      <a href="reportes.html">Reportes</a>
+      <a href="#" id="salir">Cerrar sesion</a>
+    </nav>
+  </header>
+
+  <main>
+    <p id="usuario-actual"></p>
+    <div class="mensaje" id="aviso" role="status" aria-live="polite" hidden></div>
+
+    <section class="tarjeta">
+      <h2 id="titulo-form">Nuevo punto de reciclaje</h2>
+      <form id="form-punto" novalidate>
+        <input type="hidden" id="id_punto" name="id_punto">
+
+        <div class="fila">
+          <div class="campo">
+            <label for="nombre">Nombre *</label>
+            <input type="text" id="nombre" name="nombre" required>
+          </div>
+          <div class="campo">
+            <label for="localidad">Localidad *</label>
+            <input type="text" id="localidad" name="localidad" required>
+          </div>
+        </div>
+
+        <div class="campo">
+          <label for="direccion">Direccion *</label>
+          <input type="text" id="direccion" name="direccion" required>
+        </div>
+
+        <div class="fila">
+          <div class="campo">
+            <label for="latitud">Latitud <span id="ayuda-lat">(-90 a 90)</span></label>
+            <input type="number" step="0.000001" id="latitud" name="latitud"
+                   min="-90" max="90" aria-describedby="ayuda-lat">
+          </div>
+          <div class="campo">
+            <label for="longitud">Longitud <span id="ayuda-lon">(-180 a 180)</span></label>
+            <input type="number" step="0.000001" id="longitud" name="longitud"
+                   min="-180" max="180" aria-describedby="ayuda-lon">
+          </div>
+          <div class="campo">
+            <label for="estado">Estado</label>
+            <select id="estado" name="estado">
+              <option value="activo">Activo</option>
+              <option value="inactivo">Inactivo</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="campo">
+          <label for="horario">Horario</label>
+          <input type="text" id="horario" name="horario" placeholder="Lun-Sab 8:00-17:00">
+        </div>
+
+        <fieldset>
+          <legend>Tipos de residuo aceptados</legend>
+          <div class="casillas" id="casillas-tipos"></div>
+        </fieldset>
+
+        <div class="acciones">
+          <button type="submit" id="btn-guardar">Crear punto</button>
+          <button type="button" class="secundario" id="btn-cancelar">Cancelar edicion</button>
+        </div>
+      </form>
+    </section>
+
+    <section>
+      <h2>Puntos registrados</h2>
+      <div class="tabla-scroll">
+        <table>
+          <caption>Listado de puntos de reciclaje</caption>
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Direccion</th>
+              <th scope="col">Localidad</th>
+              <th scope="col">Horario</th>
+              <th scope="col">Acepta</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="cuerpo-tabla"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>EcoRecicla - RF8: CRUD de puntos de reciclaje</footer>
+  <script src="js/api.js"></script>
+  <script src="js/admin-puntos.js"></script>
+</body>
+</html>

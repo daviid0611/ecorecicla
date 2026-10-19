@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoRecicla | Reportes y estadisticas</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="principal">
+    <h1>EcoRecicla</h1>
+    <nav class="principal" aria-label="Navegacion principal">
+      <a href="index.html">Inicio</a>
+      <a href="puntos.html">Puntos</a>
+      <a href="registrar.html">Registrar</a>
+      <a href="historial.html">Historial</a>
+      <a href="reportes.html">Reportes</a>
+      <a href="#" id="salir">Cerrar sesion</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Reportes e impacto ambiental</h2>
+    <p id="usuario-actual"></p>
+    <p>Los reportes solo suman los registros <strong>aprobados</strong> por el operador.</p>
+    <div class="mensaje" id="aviso" role="status" aria-live="polite" hidden></div>
+
+    <section class="tarjeta">
+      <h3>RF6 - Reporte por periodo</h3>
+      <form id="form-reporte" novalidate>
+        <div class="fila">
+          <div class="campo">
+            <label for="desde">Desde *</label>
+            <input type="date" id="desde" name="desde" required>
+          </div>
+          <div class="campo">
+            <label for="hasta">Hasta *</label>
+            <input type="date" id="hasta" name="hasta" required>
+          </div>
+          <div class="campo">
+            <label for="alcance">Alcance</label>
+            <select id="alcance" name="alcance">
+              <option value="personal">Mi reciclaje</option>
+              <option value="global">Global (solo administrador)</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit">Generar reporte</button>
+      </form>
+    </section>
+
+    <section class="tarjetas" id="totales-reporte" aria-live="polite"></section>
+
+    <section class="tabla-scroll">
+      <table>
+        <caption>Detalle del periodo por tipo de residuo</caption>
+        <thead>
+          <tr>
+            <th scope="col">Tipo de residuo</th>
+            <th scope="col">Total kg</th>
+            <th scope="col">CO2 evitado (kg)</th>
+          </tr>
+        </thead>
+        <tbody id="detalle-reporte"></tbody>
+      </table>
+    </section>
+
+    <h3>RF7 - Estadisticas ambientales</h3>
+    <section class="tarjetas" id="totales-globales"></section>
+
+    <section class="tabla-scroll">
+      <table>
+        <caption>Acumulado por mes y tipo de residuo</caption>
+        <thead>
+          <tr>
+            <th scope="col">Mes</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Total kg</th>
+            <th scope="col">CO2 evitado (kg)</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-mes"></tbody>
+      </table>
+    </section>
+
+    <section class="tabla-scroll">
+      <table>
+        <caption>Ranking de puntos de reciclaje</caption>
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Punto</th>
+            <th scope="col">Localidad</th>
+            <th scope="col">Total kg</th>
+            <th scope="col">CO2 evitado (kg)</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-ranking"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>EcoRecicla - RF6 y RF7</footer>
+  <script src="js/api.js"></script>
+  <script src="js/reportes.js"></script>
+</body>
+</html>

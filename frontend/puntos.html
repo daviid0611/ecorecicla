@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoRecicla | Puntos de reciclaje</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="principal">
+    <h1>EcoRecicla</h1>
+    <nav class="principal" aria-label="Navegacion principal">
+      <a href="index.html">Inicio</a>
+      <a href="puntos.html">Puntos</a>
+      <a href="registrar.html">Registrar</a>
+      <a href="historial.html">Historial</a>
+      <a href="reportes.html">Reportes</a>
+      <a href="login.html">Iniciar sesion</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Puntos de reciclaje activos</h2>
+    <p>Consulta publica: no necesitas iniciar sesion.</p>
+    <div class="mensaje" id="aviso" role="status" aria-live="polite" hidden></div>
+
+    <section class="tarjeta">
+      <form id="form-filtros">
+        <div class="fila">
+          <div class="campo">
+            <label for="id_tipo">Tipo de residuo</label>
+            <select id="id_tipo" name="id_tipo">
+              <option value="">Todos</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="localidad">Localidad</label>
+            <select id="localidad" name="localidad">
+              <option value="">Todas</option>
+            </select>
+          </div>
+        </div>
+        <div class="acciones">
+          <button type="submit">Filtrar</button>
+          <button type="button" class="secundario" id="btn-limpiar">Limpiar filtros</button>
+        </div>
+      </form>
+    </section>
+
+    <p id="contador" aria-live="polite"></p>
+    <section class="tarjetas" id="lista-puntos"></section>
+  </main>
+
+  <footer>EcoRecicla - RF3: consulta de puntos de reciclaje</footer>
+  <script src="js/api.js"></script>
+  <script src="js/puntos.js"></script>
+</body>
+</html>

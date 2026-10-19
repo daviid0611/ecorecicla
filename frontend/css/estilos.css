@@ -1,0 +1,119 @@
+/* EcoRecicla - hoja de estilos unica. Layout con Flexbox y diseno responsive (RNF3, RNF6). */
+:root {
+  --verde: #2e7d32;
+  --verde-claro: #e8f5e9;
+  --gris: #455a64;
+  --rojo: #c62828;
+  --borde: #cfd8dc;
+  --radio: 8px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #263238;
+  background: #f5f7f6;
+  line-height: 1.5;
+}
+
+header.principal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: var(--verde);
+  color: #fff;
+}
+
+header.principal h1 { font-size: 1.3rem; margin: 0; }
+
+nav.principal { display: flex; flex-wrap: wrap; gap: 1rem; }
+nav.principal a { color: #fff; text-decoration: none; font-weight: 600; }
+nav.principal a:hover, nav.principal a:focus { text-decoration: underline; }
+
+main { max-width: 1000px; margin: 0 auto; padding: 1.5rem; }
+
+.tarjetas { display: flex; flex-wrap: wrap; gap: 1rem; }
+
+.tarjeta {
+  flex: 1 1 280px;
+  background: #fff;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 1.25rem;
+}
+
+form { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.fila { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.fila > .campo { flex: 1 1 200px; }
+
+.campo { display: flex; flex-direction: column; gap: 0.25rem; }
+
+label { font-weight: 600; font-size: 0.9rem; }
+
+input, select, textarea {
+  padding: 0.55rem;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+input:focus, select:focus, button:focus {
+  outline: 3px solid #90caf9;
+  outline-offset: 1px;
+}
+
+fieldset { border: 1px solid var(--borde); border-radius: var(--radio); }
+legend { font-weight: 600; padding: 0 0.4rem; }
+
+.casillas { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.casillas label { font-weight: 400; display: flex; align-items: center; gap: 0.35rem; }
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: var(--radio);
+  padding: 0.6rem 1.1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background: var(--verde);
+  color: #fff;
+}
+
+button.secundario { background: var(--gris); }
+button.peligro { background: var(--rojo); }
+button:hover { filter: brightness(1.1); }
+
+/* Un boton deshabilitado debe verse deshabilitado: se usa en los tipos de
+   residuo que ya estan en uso y por eso no se pueden eliminar. */
+button:disabled { background: var(--borde); color: #6b7a80; cursor: not-allowed; }
+button:disabled:hover { filter: none; }
+
+.acciones { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.tabla-scroll { overflow-x: auto; }
+
+table { width: 100%; border-collapse: collapse; background: #fff; }
+th, td { border: 1px solid var(--borde); padding: 0.55rem; text-align: left; font-size: 0.92rem; }
+th { background: var(--verde-claro); }
+
+.mensaje { padding: 0.75rem 1rem; border-radius: var(--radio); margin: 0.75rem 0; }
+.mensaje.ok { background: var(--verde-claro); border: 1px solid var(--verde); }
+.mensaje.error { background: #ffebee; border: 1px solid var(--rojo); }
+.mensaje[hidden] { display: none; }
+
+.etiqueta { font-size: 0.8rem; padding: 0.15rem 0.5rem; border-radius: 999px; background: var(--verde-claro); }
+.etiqueta.inactivo { background: #ffebee; color: var(--rojo); }
+
+footer { padding: 1.5rem; text-align: center; font-size: 0.85rem; color: var(--gris); }
+
+@media (max-width: 600px) {
+  header.principal { flex-direction: column; align-items: flex-start; }
+  main { padding: 1rem; }
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoRecicla | Inicio</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="principal">
+    <h1>EcoRecicla</h1>
+    <nav class="principal" aria-label="Navegacion principal">
+      <a href="index.html">Inicio</a>
+      <a href="puntos.html">Puntos</a>
+      <a href="registrar.html">Registrar reciclaje</a>
+      <a href="historial.html">Mi historial</a>
+      <a href="reportes.html">Reportes</a>
+      <a href="validar.html">Validar</a>
+      <a href="admin-puntos.html">Administrar puntos</a>
+      <a href="admin-tipos.html">Tipos de residuo</a>
+      <a href="login.html">Iniciar sesion</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Plataforma de registro y seguimiento del reciclaje urbano</h2>
+    <p>Proyecto PLANETA VERDE - Universidad Manuela Beltran. Registra tus residuos,
+       consulta puntos de acopio y conoce el CO<sub>2</sub> que evitas.</p>
+
+    <section class="tarjetas" aria-label="Accesos rapidos">
+      <article class="tarjeta">
+        <h3>Ciudadano</h3>
+        <p>Crea tu cuenta, registra lo que reciclas, revisa tu historial y genera tu reporte de CO2.</p>
+        <a href="login.html"><button type="button">Entrar o crear cuenta</button></a>
+      </article>
+      <article class="tarjeta">
+        <h3>Administrador</h3>
+        <p>Gestiona los puntos de reciclaje (RF8) y los tipos de residuo con su factor de CO2 (RF9).</p>
+        <div class="acciones">
+          <a href="admin-puntos.html"><button type="button" class="secundario">Administrar puntos</button></a>
+          <a href="admin-tipos.html"><button type="button" class="secundario">Tipos de residuo</button></a>
+        </div>
+      </article>
+      <article class="tarjeta">
+        <h3>Operador</h3>
+        <p>Valida los registros realizados en tu punto (RF10).</p>
+        <a href="validar.html"><button type="button" class="secundario">Validar registros</button></a>
+      </article>
+    </section>
+  </main>
+
+  <footer>EcoRecicla - RF1 a RF10 implementados</footer>
+</body>
+</html>

@@ -1,0 +1,1345 @@
+{
+  "info": {
+    "name": "EcoRecicla - API completa (RF1-RF10)",
+    "description": "Coleccion de pruebas de la API REST de EcoRecicla. Ejecutar primero 'Login administrador': guarda el token en la variable {{token}} y el resto de peticiones lo usan automaticamente.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "id_punto",
+      "value": "1"
+    },
+    {
+      "key": "id_registro",
+      "value": "1"
+    },
+    {
+      "key": "token_ciudadano",
+      "value": ""
+    },
+    {
+      "key": "token_operador",
+      "value": ""
+    },
+    {
+      "key": "id_tipo",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "RF1 - Registrar ciudadano (201)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/auth/registro",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "registro"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Ana Torres\",\n  \"correo\": \"ana@ecorecicla.test\",\n  \"contrasena\": \"Ciudadano123*\",\n  \"telefono\": \"3001112233\"\n}"
+        }
+      }
+    },
+    {
+      "name": "RF1 - Registro con datos invalidos (400)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/auth/registro",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "registro"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"A\",\n  \"correo\": \"correo-malo\",\n  \"contrasena\": \"123\"\n}"
+        }
+      }
+    },
+    {
+      "name": "RF2 - Login administrador (200)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const datos = pm.response.json();",
+              "if (datos.token) { pm.collectionVariables.set('token', datos.token); }",
+              "pm.test('Responde 200', function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/auth/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"correo\": \"admin@ecorecicla.test\",\n  \"contrasena\": \"Admin123*\"\n}"
+        }
+      }
+    },
+    {
+      "name": "RF2 - Login credenciales invalidas (401)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/auth/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"correo\": \"admin@ecorecicla.test\",\n  \"contrasena\": \"clave-incorrecta\"\n}"
+        }
+      }
+    },
+    {
+      "name": "RF2 - Login ciudadano (para probar el 403)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const datos = pm.response.json();",
+              "if (datos.token) { pm.collectionVariables.set('token_ciudadano', datos.token); }"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/auth/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"correo\": \"laura@ecorecicla.test\",\n  \"contrasena\": \"Ciudadano123*\"\n}"
+        }
+      }
+    },
+    {
+      "name": "RF2 - Perfil del token (200)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/auth/perfil",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "perfil"
+          ]
+        }
+      }
+    },
+    {
+      "name": "RF8 - Tipos de residuo (200)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/puntos/tipos-residuo",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "puntos",
+            "tipos-residuo"
+          ]
+        }
+      }
+    },
+    {
+      "name": "RF8 - Listar puntos (200)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/puntos",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "puntos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "RF8 - Crear punto (201)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const datos = pm.response.json();",
+              "if (datos.id_punto) { pm.collectionVariables.set('id_punto', datos.id_punto); }",
+              "pm.test('Responde 201', function () { pm.response.to.have.status(201); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/puntos",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "puntos"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"EcoPunto Usaquen\",\n  \"direccion\": \"Calle 116 # 15-20\",\n  \"localidad\": \"Usaquen\",\n  \"latitud\": 4.700000,\n  \"longitud\": -74.030000,\n  \"horario\": \"Lun-Vie 8:00-17:00\",\n  \"tipos\": [1, 2, 3]\n}"
+        }
+      }
+    },
+    {
+      "name": "RF8 - Crear punto sin nombre (400)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/puntos",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "puntos"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"\",\n  \"direccion\": \"Sin nombre\",\n  \"localidad\": \"Suba\",\n  \"latitud\": 200\n}"
+        }
+      }
+    },
+    {
+      "name": "RF8 - Crear punto sin token (401)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/puntos",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "puntos"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Punto sin token\",\n  \"direccion\": \"X\",\n  \"localidad\": \"Suba\"\n}"
+        }
+      }
+    },
+    {
+      "name": "RF8 - Crear punto como ciudadano (403)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token_ciudadano}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/puntos",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "puntos"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Punto no permitido\",\n  \"direccion\": \"X\",\n  \"localidad\": \"Suba\"\n}"
+        }
+      }
+    },
+    {
+      "name": "RF8 - Obtener punto por id (200)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/puntos/{{id_punto}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "puntos",
+            "{{id_punto}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "RF8 - Obtener punto inexistente (404)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/puntos/9999",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "puntos",
+            "9999"
+          ]
+        }
+      }
+    },
+    {
+      "name": "RF8 - Actualizar punto (200)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/puntos/{{id_punto}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "puntos",
+            "{{id_punto}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"EcoPunto Usaquen (actualizado)\",\n  \"direccion\": \"Calle 116 # 15-20\",\n  \"localidad\": \"Usaquen\",\n  \"latitud\": 4.701000,\n  \"longitud\": -74.031000,\n  \"horario\": \"Lun-Sab 8:00-18:00\",\n  \"estado\": \"activo\",\n  \"tipos\": [1, 4, 5]\n}"
+        }
+      }
+    },
+    {
+      "name": "RF8 - Desactivar punto / borrado logico (200)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/puntos/{{id_punto}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "puntos",
+            "{{id_punto}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "RF8 - Desactivar punto inexistente (404)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/puntos/9999",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "puntos",
+            "9999"
+          ]
+        }
+      }
+    },
+    {
+      "name": "RF2 - Login operador",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const datos = pm.response.json();",
+              "if (datos['token']) { pm.collectionVariables.set('token_operador', datos['token']); }"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/auth/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"correo\": \"operador@ecorecicla.test\",\n  \"contrasena\": \"Operador123*\"\n}"
+        }
+      }
+    },
+    {
+      "name": "RF3 - Puntos activos publicos (200, sin token)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/puntos/publicos",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "puntos",
+            "publicos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "RF3 - Puntos filtrados por tipo y localidad (200)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/puntos/publicos?id_tipo=1&localidad=Suba",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "puntos",
+            "publicos"
+          ],
+          "query": [
+            {
+              "key": "id_tipo",
+              "value": "1"
+            },
+            {
+              "key": "localidad",
+              "value": "Suba"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "RF3 - Localidades con puntos activos (200)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/puntos/localidades",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "puntos",
+            "localidades"
+          ]
+        }
+      }
+    },
+    {
+      "name": "RF4 - Registrar reciclaje (201)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const datos = pm.response.json();",
+              "if (datos['registro']['id_registro']) { pm.collectionVariables.set('id_registro', datos['registro']['id_registro']); }"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token_ciudadano}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/registros",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "registros"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id_punto\": 1,\n  \"id_tipo\": 1,\n  \"cantidad_kg\": 5.5,\n  \"observaciones\": \"Botellas PET\"\n}"
+        }
+      }
+    },
+    {
+      "name": "RF4 - Tipo no aceptado por el punto (400)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token_ciudadano}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/registros",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "registros"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id_punto\": 2,\n  \"id_tipo\": 4,\n  \"cantidad_kg\": 1\n}"
+        }
+      }
+    },
+    {
+      "name": "RF4 - Cantidad negativa (400)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token_ciudadano}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/registros",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "registros"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id_punto\": 1,\n  \"id_tipo\": 1,\n  \"cantidad_kg\": -3\n}"
+        }
+      }
+    },
+    {
+      "name": "RF5 - Historial con filtros de fecha y tipo (200)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token_ciudadano}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/registros/mios?desde=2026-08-01&hasta=2026-12-31&id_tipo=1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "registros",
+            "mios"
+          ],
+          "query": [
+            {
+              "key": "desde",
+              "value": "2026-08-01"
+            },
+            {
+              "key": "hasta",
+              "value": "2026-12-31"
+            },
+            {
+              "key": "id_tipo",
+              "value": "1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "RF10 - Pendientes de mi punto (200, operador)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token_operador}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/registros/mi-punto",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "registros",
+            "mi-punto"
+          ]
+        }
+      }
+    },
+    {
+      "name": "RF10 - Aprobar registro (200)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token_operador}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/registros/{{id_registro}}/validacion",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "registros",
+            "{{id_registro}}",
+            "validacion"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"estado\": \"aprobado\",\n  \"observacion\": \"Verificado en el punto\"\n}"
+        }
+      }
+    },
+    {
+      "name": "RF10 - Aprobar de nuevo: ya validado (409)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token_operador}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/registros/{{id_registro}}/validacion",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "registros",
+            "{{id_registro}}",
+            "validacion"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"estado\": \"aprobado\"\n}"
+        }
+      }
+    },
+    {
+      "name": "RF10 - Ciudadano intenta validar (403)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token_ciudadano}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/registros/{{id_registro}}/validacion",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "registros",
+            "{{id_registro}}",
+            "validacion"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"estado\": \"aprobado\"\n}"
+        }
+      }
+    },
+    {
+      "name": "RF10 - Estado invalido (400)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token_operador}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/registros/2/validacion",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "registros",
+            "2",
+            "validacion"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"estado\": \"borrado\"\n}"
+        }
+      }
+    },
+    {
+      "name": "RF6 - Reporte personal por periodo (200)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token_ciudadano}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/reportes/personal?desde=2026-08-01&hasta=2026-12-31",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "reportes",
+            "personal"
+          ],
+          "query": [
+            {
+              "key": "desde",
+              "value": "2026-08-01"
+            },
+            {
+              "key": "hasta",
+              "value": "2026-12-31"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "RF6 - Reporte con fechas invalidas (400)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/reportes/personal?desde=2026-13-99&hasta=xx",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "reportes",
+            "personal"
+          ],
+          "query": [
+            {
+              "key": "desde",
+              "value": "2026-13-99"
+            },
+            {
+              "key": "hasta",
+              "value": "xx"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "RF6 - Reporte global como ciudadano (403)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token_ciudadano}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/reportes/global?desde=2026-08-01&hasta=2026-12-31",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "reportes",
+            "global"
+          ],
+          "query": [
+            {
+              "key": "desde",
+              "value": "2026-08-01"
+            },
+            {
+              "key": "hasta",
+              "value": "2026-12-31"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "RF6 - Reporte global como administrador (200)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/reportes/global?desde=2026-08-01&hasta=2026-12-31",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "reportes",
+            "global"
+          ],
+          "query": [
+            {
+              "key": "desde",
+              "value": "2026-08-01"
+            },
+            {
+              "key": "hasta",
+              "value": "2026-12-31"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "RF7 - Estadisticas ambientales (200)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/reportes/estadisticas",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "reportes",
+            "estadisticas"
+          ]
+        }
+      }
+    },
+    {
+      "name": "RF9 - Listar tipos con su uso (200)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/tipos",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "tipos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "RF9 - Crear tipo (201)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/tipos",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "tipos"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Textiles\",\n  \"descripcion\": \"Ropa y telas limpias\",\n  \"factor_co2_kg\": 3.5\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const datos = pm.response.json();",
+              "if (datos.id_tipo) { pm.collectionVariables.set('id_tipo', datos.id_tipo); }",
+              "pm.test('Responde 201', function () { pm.response.to.have.status(201); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "RF9 - Crear tipo con factor negativo (400)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/tipos",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "tipos"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Factor malo\",\n  \"factor_co2_kg\": -2\n}"
+        }
+      }
+    },
+    {
+      "name": "RF9 - Crear tipo con nombre repetido (409)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/tipos",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "tipos"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Vidrio\",\n  \"factor_co2_kg\": 1\n}"
+        }
+      }
+    },
+    {
+      "name": "RF9 - Crear tipo como ciudadano (403)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token_ciudadano}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/tipos",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "tipos"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"No permitido\",\n  \"factor_co2_kg\": 1\n}"
+        }
+      }
+    },
+    {
+      "name": "RF9 - Obtener tipo por id (200)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/tipos/{{id_tipo}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "tipos",
+            "{{id_tipo}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "RF9 - Tipo inexistente (404)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/tipos/9999",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "tipos",
+            "9999"
+          ]
+        }
+      }
+    },
+    {
+      "name": "RF9 - Actualizar tipo (200)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/tipos/{{id_tipo}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "tipos",
+            "{{id_tipo}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Textiles\",\n  \"descripcion\": \"Ropa, telas y calzado\",\n  \"factor_co2_kg\": 4.2\n}"
+        }
+      }
+    },
+    {
+      "name": "RF9 - Eliminar tipo sin uso (200)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/tipos/{{id_tipo}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "tipos",
+            "{{id_tipo}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "RF9 - Eliminar tipo en uso (409)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/tipos/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "tipos",
+            "1"
+          ]
+        }
+      }
+    }
+  ]
+}
