@@ -4,6 +4,7 @@
  */
 const pool = require('../db');
 const { ErrorApi } = require('../middlewares/error');
+const { calcularCO2Evitado } = require('../services/impacto');
 
 const CANTIDAD_MAXIMA_KG = 999999.99;
 const PATRON_FECHA = /^\d{4}-\d{2}-\d{2}$/;
@@ -58,7 +59,7 @@ async function crear(req, res) {
   const [filas] = await pool.execute(
     `SELECT r.id_registro, r.cantidad_kg, r.fecha_registro, r.estado,
             p.nombre AS punto, t.nombre AS tipo_residuo,
-            ROUND(r.cantidad_kg * t.factor_co2_kg, 2) AS co2_estimado_kg
+            t.factor_co2_kg
      FROM registro_reciclaje r
      JOIN punto_reciclaje p ON p.id_punto = r.id_punto
      JOIN tipo_residuo t ON t.id_tipo = r.id_tipo
@@ -66,7 +67,13 @@ async function crear(req, res) {
     [resultado.insertId]
   );
 
-  res.status(201).json({ mensaje: 'Registro guardado. Queda pendiente de validacion.', registro: filas[0] });
+  res.status(201).json({ mensaje: 'Registro guardado. Queda pendiente de validacion.', registro: conCO2(filas[0]) });
+}
+
+// El CO2 se calcula en el servicio de impacto (ESC-11), no en el SQL.
+// mysql2 entrega los DECIMAL como texto: se convierten antes de calcular.
+function conCO2({ factor_co2_kg, ...fila }) {
+  return { ...fila, co2_estimado_kg: calcularCO2Evitado(Number(fila.cantidad_kg), Number(factor_co2_kg)) };
 }
 
 // Arma la parte WHERE de los filtros opcionales sin concatenar valores.
@@ -100,7 +107,7 @@ async function mios(req, res) {
   const sql =
     `SELECT r.id_registro, r.cantidad_kg, r.fecha_registro, r.estado, r.observaciones,
             r.observacion_validacion, p.nombre AS punto, t.nombre AS tipo_residuo,
-            ROUND(r.cantidad_kg * t.factor_co2_kg, 2) AS co2_estimado_kg
+            t.factor_co2_kg
      FROM registro_reciclaje r
      JOIN punto_reciclaje p ON p.id_punto = r.id_punto
      JOIN tipo_residuo t ON t.id_tipo = r.id_tipo
@@ -108,7 +115,8 @@ async function mios(req, res) {
     (condiciones.length > 0 ? ' AND ' + condiciones.join(' AND ') : '') +
     ' ORDER BY r.fecha_registro DESC';
 
-  const [filas] = await pool.execute(sql, [req.usuario.id_usuario, ...valores]);
+  const [crudas] = await pool.execute(sql, [req.usuario.id_usuario, ...valores]);
+  const filas = crudas.map(conCO2);
 
   // Los totales del historial solo suman lo aprobado, igual que las vistas.
   const aprobados = filas.filter((f) => f.estado === 'aprobado');
