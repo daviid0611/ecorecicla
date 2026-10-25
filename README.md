@@ -134,6 +134,24 @@ puntos, Operador en validar, Ciudadano en registrar reciclaje.
 En el diagrama de despliegue ese rol de servidor estatico lo cumple Nginx;
 en desarrollo lo hace el mismo Express.
 
+## Pruebas automatizadas
+
+La suite usa Jest y Supertest. Las pruebas de integracion trabajan contra una
+base aparte, `ecorecicla_test`, que se borra y se vuelve a crear con
+`database/schema.sql` y `database/seed.js` en cada corrida: nunca tocan la base
+de desarrollo.
+
+Requisito: MySQL o MariaDB encendido con el usuario del `backend/.env`.
+
+```bash
+cd backend
+npm test            # unitarias + integracion, con cobertura (--runInBand)
+npm run test:unit   # solo las unitarias, no necesitan base de datos
+```
+
+En GitHub Actions (`.github/workflows/pruebas.yml`) la misma suite corre en
+cada pull request y en cada push a `main`, con un MySQL 8 limpio.
+
 ## Probar la API con Postman
 
 Importar `docs/EcoRecicla.postman_collection.json`.
