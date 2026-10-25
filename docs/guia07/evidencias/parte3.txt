@@ -1,0 +1,7 @@
+$ git add README.md
+$ git commit -m "Agregando autor al README"
+[main fdddc40] Agregando autor al README
+ 1 file changed, 2 insertions(+)
+$ git push origin main
+To https://github.com/daviid0611/ecorecicla.git
+   cc44363..fdddc40  main -> main

@@ -1,0 +1,39 @@
+
+> ecorecicla-backend@1.0.0 test
+> jest --coverage --runInBand --colors=false
+
+--------------------------|---------|----------|---------|---------|-------------------------------------------------
+File                      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s                               
+--------------------------|---------|----------|---------|---------|-------------------------------------------------
+All files                 |   79.59 |    69.51 |   78.94 |   82.29 |                                                 
+ backend                  |     100 |      100 |     100 |     100 |                                                 
+  app.js                  |     100 |      100 |     100 |     100 |                                                 
+ backend/src              |     100 |       60 |     100 |     100 |                                                 
+  db.js                   |     100 |       60 |     100 |     100 | 9-11,13                                         
+ backend/src/controllers  |   72.95 |    67.48 |   76.59 |   76.07 |                                                 
+  auth.controller.js      |   88.37 |    84.37 |      75 |    87.8 | 55,91-100                                       
+  puntos.controller.js    |   43.29 |    41.26 |      50 |   47.67 | 17-20,35,82-135,141,157-158,165-190,206,213-214 
+  registros.controller.js |   90.52 |    88.13 |    92.3 |    92.4 | 160,166-179,187                                 
+  reportes.controller.js  |     100 |      100 |     100 |     100 |                                                 
+  tipos.controller.js     |   68.51 |    60.46 |      75 |   76.59 | 18,22,49-62,71,92,128-129                       
+ backend/src/middlewares  |      90 |       75 |    87.5 |   89.65 |                                                 
+  auth.js                 |     100 |      100 |     100 |     100 |                                                 
+  error.js                |   81.81 |       50 |      80 |      80 | 20,26                                           
+  rol.js                  |    87.5 |       75 |     100 |    87.5 | 11                                              
+ backend/src/routes       |     100 |      100 |     100 |     100 |                                                 
+  auth.routes.js          |     100 |      100 |     100 |     100 |                                                 
+  puntos.routes.js        |     100 |      100 |     100 |     100 |                                                 
+  registros.routes.js     |     100 |      100 |     100 |     100 |                                                 
+  reportes.routes.js      |     100 |      100 |     100 |     100 |                                                 
+  tipos.routes.js         |     100 |      100 |     100 |     100 |                                                 
+ backend/src/services     |   83.33 |       90 |     100 |   83.33 |                                                 
+  impacto.js              |   83.33 |       90 |     100 |   83.33 | 10                                              
+ backend/src/utils        |     100 |      100 |     100 |     100 |                                                 
+  fechas.js               |     100 |      100 |     100 |     100 |                                                 
+--------------------------|---------|----------|---------|---------|-------------------------------------------------
+
+Test Suites: 6 passed, 6 total
+Tests:       90 passed, 90 total
+Snapshots:   0 total
+Time:        6.957 s
+Ran all test suites.

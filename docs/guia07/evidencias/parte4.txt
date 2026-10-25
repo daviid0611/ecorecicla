@@ -1,0 +1,13 @@
+$ git checkout -b mejora-readme
+Switched to a new branch 'mejora-readme'
+$ git add README.md
+$ git commit -m "Añadida descripción del proyecto"
+[mejora-readme bb0bda1] Añadida descripción del proyecto
+ 1 file changed, 8 insertions(+)
+$ git push origin mejora-readme
+remote: 
+remote: Create a pull request for 'mejora-readme' on GitHub by visiting:        
+remote:      https://github.com/daviid0611/ecorecicla/pull/new/mejora-readme        
+remote: 
+To https://github.com/daviid0611/ecorecicla.git
+ * [new branch]      mejora-readme -> mejora-readme
