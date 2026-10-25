@@ -8,6 +8,14 @@ Autores: David Alejandro Zambrano Arguello, Samuel Ossa Escobar.
 
 Autor: David Alejandro Zambrano Arguello (práctica de control de versiones, Guía 7).
 
+## Descripción del proyecto
+
+EcoRecicla permite que los ciudadanos de Bogotá registren lo que llevan a los
+puntos de reciclaje de su localidad, que el operador de cada punto valide esas
+entregas y que el administrador consulte cuántos kilogramos se recuperaron y
+cuánto CO2 se dejó de emitir. Cada registro aprobado suma al impacto ambiental
+del ciudadano, del punto y de la ciudad.
+
 ## Que incluye esta fase
 
 | RF | Descripcion | Estado |
