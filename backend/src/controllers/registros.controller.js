@@ -5,19 +5,39 @@
 const pool = require('../db');
 const { ErrorApi } = require('../middlewares/error');
 const { calcularCO2Evitado } = require('../services/impacto');
+const { esFechaValida } = require('../utils/fechas');
 
 const CANTIDAD_MAXIMA_KG = 999999.99;
-const PATRON_FECHA = /^\d{4}-\d{2}-\d{2}$/;
+// cantidad_kg es DECIMAL(8,2): solo se admiten hasta 2 decimales.
+const PATRON_DOS_DECIMALES = /^\d+(\.\d{1,2})?$/;
+
+/**
+ * Devuelve el error de la cantidad o null si es valida.
+ * DEF-04: solo se aceptan numeros o textos numericos (true o [5] no son cantidades).
+ * DEF-05: el 0 ya no cae en "debe ser numerica", llega a "mayor que cero".
+ * DEF-01: con mas de 2 decimales la BD redondea (0,009 se vuelve 0,01) o
+ * rompe el CHECK (0,004 se vuelve 0,00 y responde 500); se rechaza antes.
+ */
+function errorDeCantidad(valor) {
+  const esNumerico = typeof valor === 'number' || (typeof valor === 'string' && valor.trim() !== '');
+  if (!esNumerico || Number.isNaN(Number(valor))) return 'La cantidad debe ser numerica';
+
+  const cantidad = Number(valor);
+  if (cantidad <= 0) return 'La cantidad debe ser mayor que cero';
+  if (cantidad > CANTIDAD_MAXIMA_KG) return 'La cantidad supera el maximo permitido';
+  if (!PATRON_DOS_DECIMALES.test(String(cantidad))) {
+    return 'La cantidad admite maximo 2 decimales (minimo 0.01 kg)';
+  }
+  return null;
+}
 
 function validarRegistro({ id_punto, id_tipo, cantidad_kg }) {
   const errores = [];
   if (!id_punto) errores.push('Debe seleccionar un punto de reciclaje');
   if (!id_tipo) errores.push('Debe seleccionar un tipo de residuo');
 
-  const cantidad = Number(cantidad_kg);
-  if (!cantidad_kg || Number.isNaN(cantidad)) errores.push('La cantidad debe ser numerica');
-  else if (cantidad <= 0) errores.push('La cantidad debe ser mayor que cero');
-  else if (cantidad > CANTIDAD_MAXIMA_KG) errores.push('La cantidad supera el maximo permitido');
+  const errorCantidad = errorDeCantidad(cantidad_kg);
+  if (errorCantidad) errores.push(errorCantidad);
 
   return errores;
 }
@@ -82,16 +102,18 @@ function filtrosDeHistorial(consulta) {
   const valores = [];
 
   if (consulta.desde) {
-    if (!PATRON_FECHA.test(consulta.desde)) throw new ErrorApi(400, 'La fecha "desde" debe tener formato AAAA-MM-DD');
+    if (!esFechaValida(consulta.desde)) throw new ErrorApi(400, 'La fecha "desde" debe ser una fecha valida con formato AAAA-MM-DD');
     condiciones.push('r.fecha_registro >= ?');
     valores.push(consulta.desde + ' 00:00:00');
   }
   if (consulta.hasta) {
-    if (!PATRON_FECHA.test(consulta.hasta)) throw new ErrorApi(400, 'La fecha "hasta" debe tener formato AAAA-MM-DD');
+    if (!esFechaValida(consulta.hasta)) throw new ErrorApi(400, 'La fecha "hasta" debe ser una fecha valida con formato AAAA-MM-DD');
     condiciones.push('r.fecha_registro <= ?');
     valores.push(consulta.hasta + ' 23:59:59');
   }
   if (consulta.id_tipo) {
+    // DEF-03: Number('plastico') es NaN y la consulta devolvia 0 filas sin avisar.
+    if (!/^\d+$/.test(consulta.id_tipo)) throw new ErrorApi(400, 'El tipo de residuo debe ser un numero entero');
     condiciones.push('r.id_tipo = ?');
     valores.push(Number(consulta.id_tipo));
   }
@@ -186,4 +208,5 @@ async function validar(req, res) {
   res.status(200).json({ mensaje: 'Registro ' + estado, id_registro: Number(req.params.id), estado });
 }
 
-module.exports = { crear, mios, deMiPunto, validar };
+// validarRegistro se exporta para las pruebas unitarias de valores limite (ESC-09).
+module.exports = { crear, mios, deMiPunto, validar, validarRegistro };

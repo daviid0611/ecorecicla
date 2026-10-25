@@ -50,7 +50,7 @@ async function insertarUsuarios(conexion, roles) {
       [roles[u.rol], u.punto, u.nombre, u.correo, hash, u.telefono]
     );
     ids[u.correo] = res.insertId;
-    console.log('Usuario creado:', u.correo, '/', u.clave);
+    if (require.main === module) console.log('Usuario creado:', u.correo, '/', u.clave);
   }
   return ids;
 }
@@ -64,7 +64,19 @@ async function insertarRegistros(conexion, idsUsuario) {
       [idsUsuario[correo], punto, tipo, kg, fecha, obs, estado]
     );
   }
-  console.log('Registros de ejemplo insertados:', REGISTROS.length);
+  if (require.main === module) console.log('Registros de ejemplo insertados:', REGISTROS.length);
+}
+
+// Limpia y siembra usuarios y registros. Se exporta para que las pruebas
+// de integracion preparen su base (ecorecicla_test) con los mismos datos.
+async function sembrar(conexion) {
+  // Se limpia antes de sembrar para poder correr el seed las veces que sea.
+  await conexion.query('DELETE FROM registro_reciclaje');
+  await conexion.query('DELETE FROM usuario');
+
+  const roles = await obtenerRoles(conexion);
+  const idsUsuario = await insertarUsuarios(conexion, roles);
+  await insertarRegistros(conexion, idsUsuario);
 }
 
 async function main() {
@@ -76,19 +88,18 @@ async function main() {
     database: process.env.DB_NAME || 'ecorecicla'
   });
 
-  // Se limpia antes de sembrar para poder correr el seed las veces que sea.
-  await conexion.query('DELETE FROM registro_reciclaje');
-  await conexion.query('DELETE FROM usuario');
-
-  const roles = await obtenerRoles(conexion);
-  const idsUsuario = await insertarUsuarios(conexion, roles);
-  await insertarRegistros(conexion, idsUsuario);
+  await sembrar(conexion);
 
   await conexion.end();
   console.log('Seed completado.');
 }
 
-main().catch((error) => {
-  console.error('Error en el seed:', error.message);
-  process.exit(1);
-});
+// Solo se ejecuta al llamarlo con node; al importarlo desde las pruebas, no.
+if (require.main === module) {
+  main().catch((error) => {
+    console.error('Error en el seed:', error.message);
+    process.exit(1);
+  });
+}
+
+module.exports = { sembrar, USUARIOS };

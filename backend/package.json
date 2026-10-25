@@ -7,7 +7,8 @@
     "start": "node server.js",
     "dev": "node server.js",
     "seed": "node ../database/seed.js",
-    "test": "jest --coverage"
+    "test": "jest --coverage --runInBand",
+    "test:unit": "jest tests/validaciones.test.js tests/impacto.test.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -17,7 +18,22 @@
     "mysql2": "^3.11.0"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "globalSetup": "./tests/helpers/preparar-bd.js",
+    "setupFiles": [
+      "./tests/helpers/entorno.js"
+    ],
+    "setupFilesAfterEnv": [
+      "./tests/helpers/cerrar-pool.js"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/tests/helpers/"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "app.js"
+    ]
   },
   "devDependencies": {
     "jest": "^30.5.2",

@@ -5,14 +5,13 @@
  */
 const pool = require('../db');
 const { ErrorApi } = require('../middlewares/error');
-
-const PATRON_FECHA = /^\d{4}-\d{2}-\d{2}$/;
+const { esFechaValida } = require('../utils/fechas');
 
 // Valida el periodo y lo devuelve listo para usar en un BETWEEN.
 function periodoDeConsulta(consulta) {
   const { desde, hasta } = consulta;
-  if (!PATRON_FECHA.test(desde || '') || !PATRON_FECHA.test(hasta || '')) {
-    throw new ErrorApi(400, 'Debe indicar desde y hasta con formato AAAA-MM-DD');
+  if (!esFechaValida(desde) || !esFechaValida(hasta)) {
+    throw new ErrorApi(400, 'Debe indicar desde y hasta como fechas validas con formato AAAA-MM-DD');
   }
   if (hasta < desde) {
     throw new ErrorApi(400, 'La fecha final no puede ser anterior a la inicial');
