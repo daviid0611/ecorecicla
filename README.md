@@ -1,4 +1,4 @@
-# EcoRecicla v1.1 - Prototipo completo (fases 1, 2 y 3)
+# EcoRecicla v1.1 - Plataforma de reciclaje urbano con pruebas automatizadas
 
 Plataforma web para el registro y seguimiento del reciclaje urbano.
 Proyecto PLANETA VERDE - Universidad Manuela Beltran.
