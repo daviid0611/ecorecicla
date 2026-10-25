@@ -1,0 +1,23 @@
+$ gh pr create ...
+https://github.com/daviid0611/ecorecicla/pull/1
+https://github.com/daviid0611/ecorecicla/pull/1#issuecomment-6393571888
+$ gh pr merge 1 --merge --delete-branch
+From https://github.com/daviid0611/ecorecicla
+ * branch            main       -> FETCH_HEAD
+   fdddc40..6040438  main       -> origin/main
+Updating fdddc40..6040438
+Fast-forward
+ README.md | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+Already on 'main'
+Your branch is up to date with 'origin/main'.
+From https://github.com/daviid0611/ecorecicla
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+*   6040438 Merge pull request #1 from daviid0611/mejora-readme
+|\  
+| * bb0bda1 Añadida descripción del proyecto
+|/  
+* fdddc40 Agregando autor al README
+* cc44363 docs: portada, sección 9, enlace del repositorio y Anexo A actualizado
+* c91b9df docs: informe Guía 6 con plan de pruebas alineado a la API

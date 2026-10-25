@@ -1,0 +1,72 @@
+$ git checkout -b titulo-version
+Switched to a new branch 'titulo-version'
+warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it
+$ git commit -m "docs: versión 1.1 en el título del README"
+[titulo-version 42cce4a] docs: versión 1.1 en el título del README
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+To https://github.com/daviid0611/ecorecicla.git
+ * [new branch]      titulo-version -> titulo-version
+branch 'titulo-version' set up to track 'origin/titulo-version'.
+$ git checkout main && git checkout -b titulo-calidad
+Switched to branch 'main'
+Your branch is up to date with 'origin/main'.
+Switched to a new branch 'titulo-calidad'
+warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it
+$ git commit -m "docs: título del README orientado a calidad"
+[titulo-calidad d85f264] docs: título del README orientado a calidad
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+To https://github.com/daviid0611/ecorecicla.git
+ * [new branch]      titulo-calidad -> titulo-calidad
+branch 'titulo-calidad' set up to track 'origin/titulo-calidad'.
+https://github.com/daviid0611/ecorecicla/pull/2
+https://github.com/daviid0611/ecorecicla/pull/3
+$ gh pr merge 2 --merge
+$ gh pr view 3 --json mergeable,mergeStateStatus
+{"mergeStateStatus":"UNKNOWN","mergeable":"UNKNOWN"}
+$ gh pr view 3 --json mergeable,mergeStateStatus
+{"mergeStateStatus":"DIRTY","mergeable":"CONFLICTING"}
+$ git checkout titulo-calidad && git fetch origin && git merge origin/main
+Already on 'titulo-calidad'
+Your branch is up to date with 'origin/titulo-calidad'.
+From https://github.com/daviid0611/ecorecicla
+   6040438..09c5ccd  main       -> origin/main
+Auto-merging README.md
+CONFLICT (content): Merge conflict in README.md
+Automatic merge failed; fix conflicts and then commit the result.
+$ git status
+On branch titulo-calidad
+Your branch is up to date with 'origin/titulo-calidad'.
+
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+  (use "git merge --abort" to abort the merge)
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+	both modified:   README.md
+
+Untracked files:
+$ head -9 README.md
+<<<<<<< HEAD
+# EcoRecicla - Plataforma de reciclaje urbano con pruebas automatizadas
+=======
+# EcoRecicla v1.1 - Prototipo completo (fases 1, 2 y 3)
+>>>>>>> origin/main
+
+Plataforma web para el registro y seguimiento del reciclaje urbano.
+Proyecto PLANETA VERDE - Universidad Manuela Beltran.
+Asignaturas: Estandares y Metricas de Calidad de Software / Ingenieria Web.
+# Resolucion manual: se conserva la version 1.1 (rama titulo-version) y el enfoque de calidad (rama titulo-calidad)
+$ head -2 README.md
+# EcoRecicla v1.1 - Plataforma de reciclaje urbano con pruebas automatizadas
+
+$ git add README.md && git commit -m "Merge main en titulo-calidad: resuelve conflicto del título"
+[titulo-calidad 2fe6b63] Merge main en titulo-calidad: resuelve conflicto del título
+To https://github.com/daviid0611/ecorecicla.git
+   d85f264..2fe6b63  titulo-calidad -> titulo-calidad
+$ gh pr view 3 --json mergeable
+{"mergeable":"UNKNOWN"}
+$ gh pr merge 3 --merge
+Switched to branch 'main'
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+# EcoRecicla v1.1 - Plataforma de reciclaje urbano con pruebas automatizadas

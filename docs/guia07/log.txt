@@ -1,0 +1,42 @@
+*   edfed44 Merge pull request #4 from daviid0611/pruebas/escenarios-guia07
+|\  
+| *   e34a558 Merge pull request #11 from daviid0611/fix/def-02-filtros
+| |\  
+| | * 027f4f7 fix: historial y reportes rechazan fechas inexistentes e id_tipo no numérico (DEF-02, DEF-03)
+| |/  
+| *   d6a471d Merge pull request #10 from daviid0611/fix/def-01-cantidad
+| |\  
+| | * a283ca6 fix: la cantidad acepta máximo 2 decimales y solo valores numéricos (DEF-01, DEF-04, DEF-05)
+| |/  
+| * 3955cb1 ci: GitHub Actions ejecuta la suite con MySQL 8 en cada PR y push a main
+| * 97d67cf test: integración de registros, historial, validación, reportes y factor de CO2 (ESC-08 a ESC-14)
+| * 6e8da2f test: integración de autenticación ESC-01 a ESC-07 y ESC-15
+| * d05816c test: pruebas unitarias de validación ESC-03 y valores límite ESC-09
+| * 61823b7 build: base ecorecicla_test aislada para pruebas de integración (globalSetup de Jest)
+| * ec57fd6 refactor: seed exporta sembrar() para reutilizarlo en las pruebas
+|/  
+*   941217d Merge pull request #3 from daviid0611/titulo-calidad
+|\  
+| *   2fe6b63 Merge main en titulo-calidad: resuelve conflicto del título
+| |\  
+| |/  
+|/|   
+* |   09c5ccd Merge pull request #2 from daviid0611/titulo-version
+|\ \  
+| * | 42cce4a docs: versión 1.1 en el título del README
+|/ /  
+| * d85f264 docs: título del README orientado a calidad
+|/  
+*   6040438 Merge pull request #1 from daviid0611/mejora-readme
+|\  
+| * bb0bda1 Añadida descripción del proyecto
+|/  
+* fdddc40 Agregando autor al README
+* cc44363 docs: portada, sección 9, enlace del repositorio y Anexo A actualizado
+* c91b9df docs: informe Guía 6 con plan de pruebas alineado a la API
+* d86d588 test: prueba de integración de ruta protegida sin token (ESC-06)
+* 406ec23 refactor: registros usa calcularCO2Evitado en lugar de ROUND en SQL
+* 9fa002d test: prueba unitaria del cálculo de CO2 (ESC-11)
+* f972571 build: agregar Jest y Supertest con npm test y cobertura
+* 23e880a refactor: separar app.js (exporta la app) de server.js (listen)
+* eb15a9e chore: estado inicial del proyecto EcoRecicla (RF1-RF10)
