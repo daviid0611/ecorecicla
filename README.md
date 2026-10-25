@@ -6,6 +6,8 @@ Asignaturas: Estandares y Metricas de Calidad de Software / Ingenieria Web.
 
 Autores: David Alejandro Zambrano Arguello, Samuel Ossa Escobar.
 
+Autor: David Alejandro Zambrano Arguello (práctica de control de versiones, Guía 7).
+
 ## Que incluye esta fase
 
 | RF | Descripcion | Estado |
