@@ -7,6 +7,7 @@
 | Salidas de terminal y capturas | `evidencias/` |
 | Programas fuente y pruebas (Sesiones 2 y 3) | `backend/tests/`, `backend/src/utils/fechas.js`, `.github/workflows/pruebas.yml` |
 | Exposición ISO 9000 (Sesión 4) | `Exposicion_ISO9000_EcoRecicla.pptx` (con notas del orador) |
+| Presentación para grabar el video (Samuel) | `Video_Guia07_EcoRecicla.pptx` (guion en las notas) |
 | Guion del video en inglés | `guion_video_en.md` |
 
 Trazabilidad: PR #1 a #3 (práctica de ramas y conflicto), PR #4 (suite y CI),
