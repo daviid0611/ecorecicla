@@ -8,16 +8,36 @@ const { calcularCO2Evitado } = require('../services/impacto');
 
 const CANTIDAD_MAXIMA_KG = 999999.99;
 const PATRON_FECHA = /^\d{4}-\d{2}-\d{2}$/;
+// cantidad_kg es DECIMAL(8,2): solo se admiten hasta 2 decimales.
+const PATRON_DOS_DECIMALES = /^\d+(\.\d{1,2})?$/;
+
+/**
+ * Devuelve el error de la cantidad o null si es valida.
+ * DEF-04: solo se aceptan numeros o textos numericos (true o [5] no son cantidades).
+ * DEF-05: el 0 ya no cae en "debe ser numerica", llega a "mayor que cero".
+ * DEF-01: con mas de 2 decimales la BD redondea (0,009 se vuelve 0,01) o
+ * rompe el CHECK (0,004 se vuelve 0,00 y responde 500); se rechaza antes.
+ */
+function errorDeCantidad(valor) {
+  const esNumerico = typeof valor === 'number' || (typeof valor === 'string' && valor.trim() !== '');
+  if (!esNumerico || Number.isNaN(Number(valor))) return 'La cantidad debe ser numerica';
+
+  const cantidad = Number(valor);
+  if (cantidad <= 0) return 'La cantidad debe ser mayor que cero';
+  if (cantidad > CANTIDAD_MAXIMA_KG) return 'La cantidad supera el maximo permitido';
+  if (!PATRON_DOS_DECIMALES.test(String(cantidad))) {
+    return 'La cantidad admite maximo 2 decimales (minimo 0.01 kg)';
+  }
+  return null;
+}
 
 function validarRegistro({ id_punto, id_tipo, cantidad_kg }) {
   const errores = [];
   if (!id_punto) errores.push('Debe seleccionar un punto de reciclaje');
   if (!id_tipo) errores.push('Debe seleccionar un tipo de residuo');
 
-  const cantidad = Number(cantidad_kg);
-  if (!cantidad_kg || Number.isNaN(cantidad)) errores.push('La cantidad debe ser numerica');
-  else if (cantidad <= 0) errores.push('La cantidad debe ser mayor que cero');
-  else if (cantidad > CANTIDAD_MAXIMA_KG) errores.push('La cantidad supera el maximo permitido');
+  const errorCantidad = errorDeCantidad(cantidad_kg);
+  if (errorCantidad) errores.push(errorCantidad);
 
   return errores;
 }
