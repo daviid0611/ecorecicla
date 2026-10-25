@@ -186,4 +186,5 @@ async function validar(req, res) {
   res.status(200).json({ mensaje: 'Registro ' + estado, id_registro: Number(req.params.id), estado });
 }
 
-module.exports = { crear, mios, deMiPunto, validar };
+// validarRegistro se exporta para las pruebas unitarias de valores limite (ESC-09).
+module.exports = { crear, mios, deMiPunto, validar, validarRegistro };

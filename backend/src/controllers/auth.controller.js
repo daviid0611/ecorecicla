@@ -100,4 +100,5 @@ async function perfil(req, res) {
   res.status(200).json(filas[0]);
 }
 
-module.exports = { registrar, login, perfil };
+// validarRegistro se exporta para las pruebas unitarias (ESC-03).
+module.exports = { registrar, login, perfil, validarRegistro };
