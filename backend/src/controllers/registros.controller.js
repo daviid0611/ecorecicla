@@ -5,9 +5,9 @@
 const pool = require('../db');
 const { ErrorApi } = require('../middlewares/error');
 const { calcularCO2Evitado } = require('../services/impacto');
+const { esFechaValida } = require('../utils/fechas');
 
 const CANTIDAD_MAXIMA_KG = 999999.99;
-const PATRON_FECHA = /^\d{4}-\d{2}-\d{2}$/;
 // cantidad_kg es DECIMAL(8,2): solo se admiten hasta 2 decimales.
 const PATRON_DOS_DECIMALES = /^\d+(\.\d{1,2})?$/;
 
@@ -102,16 +102,18 @@ function filtrosDeHistorial(consulta) {
   const valores = [];
 
   if (consulta.desde) {
-    if (!PATRON_FECHA.test(consulta.desde)) throw new ErrorApi(400, 'La fecha "desde" debe tener formato AAAA-MM-DD');
+    if (!esFechaValida(consulta.desde)) throw new ErrorApi(400, 'La fecha "desde" debe ser una fecha valida con formato AAAA-MM-DD');
     condiciones.push('r.fecha_registro >= ?');
     valores.push(consulta.desde + ' 00:00:00');
   }
   if (consulta.hasta) {
-    if (!PATRON_FECHA.test(consulta.hasta)) throw new ErrorApi(400, 'La fecha "hasta" debe tener formato AAAA-MM-DD');
+    if (!esFechaValida(consulta.hasta)) throw new ErrorApi(400, 'La fecha "hasta" debe ser una fecha valida con formato AAAA-MM-DD');
     condiciones.push('r.fecha_registro <= ?');
     valores.push(consulta.hasta + ' 23:59:59');
   }
   if (consulta.id_tipo) {
+    // DEF-03: Number('plastico') es NaN y la consulta devolvia 0 filas sin avisar.
+    if (!/^\d+$/.test(consulta.id_tipo)) throw new ErrorApi(400, 'El tipo de residuo debe ser un numero entero');
     condiciones.push('r.id_tipo = ?');
     valores.push(Number(consulta.id_tipo));
   }
