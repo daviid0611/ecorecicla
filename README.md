@@ -1,5 +1,50 @@
 # EcoRecicla v1.1 - Plataforma de reciclaje urbano con pruebas automatizadas
 
+[![Pruebas](https://github.com/daviid0611/ecorecicla/actions/workflows/pruebas.yml/badge.svg)](https://github.com/daviid0611/ecorecicla/actions/workflows/pruebas.yml)
+
+## Resumen
+
+**Qué hace.** Aplicación web donde los ciudadanos de Bogotá registran lo que llevan
+a los puntos de reciclaje, el operador de cada punto valida esas entregas y el
+administrador consulta los kilogramos recuperados y el CO2 evitado. Tiene tres
+roles con permisos distintos, una API REST propia y 90 pruebas automatizadas que
+corren en GitHub Actions en cada pull request.
+
+**Stack.** Node.js, Express, MySQL 8 (mysql2 con consultas parametrizadas), JWT,
+bcrypt, HTML5, CSS3 (Flexbox) y JavaScript vanilla con `fetch`. Pruebas con Jest
+y Supertest. CI con GitHub Actions.
+
+**Capturas** (app corriendo en local con los datos de prueba del seed):
+
+| Consulta pública de puntos | Historial del ciudadano |
+|---|---|
+| ![Puntos de reciclaje activos](docs/capturas/02_puntos_publicos.png) | ![Historial de reciclaje](docs/capturas/04_historial.png) |
+| **Reportes e impacto ambiental** | **Administración de puntos** |
+| ![Reportes y estadísticas](docs/capturas/05_reportes.png) | ![Administración de puntos](docs/capturas/07_admin_puntos.png) |
+
+**Cómo ejecutarlo** (Node.js 18+ y MySQL 8 o MariaDB):
+
+```bash
+cd backend
+npm install
+mysql -u root -p < ../database/schema.sql
+copy ..\.env.example .env      # y poner la contraseña de MySQL
+npm run seed
+npm start                      # http://localhost:3000
+npm test                       # suite completa con cobertura
+```
+
+El paso a paso detallado, los usuarios de prueba y los endpoints están más abajo.
+
+**Mi rol.** Proyecto en pareja con Samuel Ossa Escobar. Desarrollamos entre los dos
+el backend y el frontend; además, yo integré el repositorio, armé la suite de
+pruebas con Jest y Supertest contra una base aislada y configuré el pipeline de
+GitHub Actions con MySQL 8.
+
+---
+
+## Documentación del proyecto
+
 Plataforma web para el registro y seguimiento del reciclaje urbano.
 Proyecto PLANETA VERDE - Universidad Manuela Beltran.
 Asignaturas: Estandares y Metricas de Calidad de Software / Ingenieria Web.
